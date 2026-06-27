@@ -6,7 +6,7 @@
 * **Programme:** MSc in Information Systems with Computing
 * **Lecturer Name:** Paul Laird
 * **Module/Subject Title:** Programming for Information Systems (B9IS123)
-* **Assignment Title:** Local Community Tool Library Management System
+* **Assignment Title:** AssetLock
 
 ---
 
