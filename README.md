@@ -30,5 +30,5 @@ In strict compliance with Dublin Business School Quality Assurance regulations a
 
 ---
 
-## 📅 Development Milestones (4-Day Log Flow)
+## 📅 Development Milestones
 * **Day 1:** Repository Initialization, Storage JSON Schema Architecture, and Core Flask API CRUD Layout.
