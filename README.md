@@ -1,12 +1,12 @@
-# Local Community Tool Library Management System (ToolShare)
+# ASSETLOCK
 
-## 📋 ASSIGNMENT COVER SHEET
+## 📋 ASSESSMENT COVER SHEET
 * **Student Name:** Santhosh Vellamuthu
 * **Student Number:** 20090020
 * **Programme:** MSc in Information Systems with Computing
 * **Lecturer Name:** Paul Laird
 * **Module/Subject Title:** Programming for Information Systems (B9IS123)
-* **Assignment Title:** AssetLock
+* **Assessment Title:** AssetLock
 
 ---
 
