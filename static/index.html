@@ -3,44 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AssetLock - Centralized Compliance Tracking Engine</title>
+    <title>AssetLock - Centralized Command Core</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <h1>AssetLock Ecosystem</h1>
-    <p>Centralized community asset tracking & safety enforcement portal.</p>
+    <header class="al-header">
+        <div>
+            <h1 class="al-title">AssetLock <span>Command Core</span></h1>
+            <p class="al-subtitle">Enterprise equipment lifecycle & compliance tracking dashboard — provision, regulate, and safeguard field devices across your infrastructure system.</p>
+        </div>
+        <div class="al-status-badge">● KERNEL ENGINE: SECURE</div>
+    </header>
+
+    <section class="al-stats">
+        <div class="al-stat al-stat--total">
+            <div class="al-stat-label">Total Fleet Nodes</div>
+            <div class="al-stat-value" id="statTotal">0</div>
+        </div>
+        <div class="al-stat al-stat--available">
+            <div class="al-stat-label">Available (Idle)</div>
+            <div class="al-stat-value" id="statAvailable">0</div>
+        </div>
+        <div class="al-stat al-stat--borrowed">
+            <div class="al-stat-label">Active Deployments</div>
+            <div class="al-stat-value" id="statBorrowed">0</div>
+        </div>
+        <div class="al-stat al-stat--locked">
+            <div class="al-stat-label">Maintenance Locks</div>
+            <div class="al-stat-value" id="statLocked">0</div>
+        </div>
+    </section>
+
+    <section class="al-panel">
+        <h2 style="margin-top:0; font-size:1.1rem; margin-bottom:1rem; letter-spacing:-0.01em;">Deploy New Infrastructure Equipment Node</h2>
+        <form id="toolForm" class="al-form-grid">
+            <div class="al-field">
+                <label class="al-label">Equipment Node Name</label>
+                <input type="text" id="toolName" required class="al-input" placeholder="e.g., Makita Angle Grinder">
+            </div>
+            <div class="al-field">
+                <label class="al-label">Category Taxonomy Cluster</label>
+                <input type="text" id="toolCategory" required class="al-input" placeholder="e.g., Power Tools">
+            </div>
+            <button type="submit" class="al-btn al-btn--primary">Provision Asset Node</button>
+        </form>
+    </section>
+
+    <section class="al-panel" style="border-color: rgba(14, 165, 233, 0.25);">
+        <h2 style="margin-top:0; font-size:1.1rem; margin-bottom:1rem; letter-spacing:-0.01em;">Authorized Custodian Directory Registry</h2>
+        <form id="userForm" class="al-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) auto;">
+            <div class="al-field">
+                <label class="al-label">Full Operator Name</label>
+                <input type="text" id="newUserName" required class="al-input" placeholder="e.g., John Doe">
+            </div>
+            <div class="al-field">
+                <label class="al-label">Official Identification Code</label>
+                <input type="text" id="newUserID" required class="al-input" placeholder="e.g., STAFF-9904">
+            </div>
+            <button type="submit" class="al-btn al-btn--primary" style="background-color: #4f46e5;">Register Custodian</button>
+        </form>
+        
+        <div id="userBadgeRegistry" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+            </div>
+    </section>
     
-    <hr>
+    <div class="al-filterbar">
+        <h2 style="margin:0; font-size:1.2rem; font-weight:700;">Operational Fleet Inventory Matrix</h2>
+        <input type="text" id="searchBar" class="al-input al-search-input" placeholder="🔍 Filter cards live by asset descriptors or cluster keyword tags...">
+    </div>
 
-    <h2>Provision New Equipment Asset</h2>
-    <form id="toolForm">
-        <label for="toolName">Equipment Name:</label>
-        <input type="text" id="toolName" required placeholder="e.g., Makita Angle Grinder">
-        
-        <label for="toolCategory">Category:</label>
-        <input type="text" id="toolCategory" required placeholder="e.g., Power Tools">
-        
-        <button type="submit">Provision Asset</button>
-    </form>
-
-    <hr>
-
-    <h2>Operational Fleet Inventory</h2>
-    <table border="1" cellpadding="5">
-        <thead>
-            <tr>
-                <th>System ID</th>
-                <th>Asset Descriptor</th>
-                <th>Category Cluster</th>
-                <th>Current Status</th>
-                <th>Health Condition</th>
-                <th>Usage Counter</th>
-                <th>Lifecycle Actions</th>
-            </tr>
-        </thead>
-        <tbody id="inventoryTableBody">
-            </tbody>
-    </table>
+    <main id="inventoryGrid" class="al-fleet-grid"></main>
 
     <script src="/static/app.js"></script>
 </body>

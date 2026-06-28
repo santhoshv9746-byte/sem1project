@@ -1,10 +1,41 @@
-[
-    {
-        "name": "Makita Angle Grinder",
-        "category": "Power tools",
-        "id": "tool_1782660362",
-        "status": "Available",
-        "condition": "Excellent",
-        "borrow_count": 0
-    }
-]
+{
+    "tools": [
+        {
+            "id": "tool_1782666925742",
+            "name": "Makita Angle Grinder",
+            "category": "Power tools",
+            "status": "Borrowed",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": "John [1001]"
+        },
+        {
+            "id": "tool_1782667717198",
+            "name": "Fluke 87V Industrial Multimeter",
+            "category": "Diagnostics & Calibration",
+            "status": "Borrowed",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": "John [1001]"
+        },
+        {
+            "id": "tool_1782667751975",
+            "name": "DeWalt DCD791 Hammer Drill",
+            "category": "Power tools",
+            "status": "Available",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": null
+        }
+    ],
+    "users": [
+        {
+            "name": "John",
+            "uid": "1001"
+        },
+        {
+            "name": "Agni",
+            "uid": "1002"
+        }
+    ]
+}

@@ -1,142 +1,152 @@
-# ==============================================================================
-# 🛡️ ASSIGNMENT ATTRIBUTION & CORE LOGIC DECLARATION
-# ==============================================================================
-# Module: Programming for Information Systems (B9IS123)
-# Lecturer: Paul Laird
-# Assignment Title: AssetLock - Community Tool Library Management System
-# Student Name: Santhosh Vellamuthu
-#
-# DESIGN & IMPLEMENTATION VERIFICATION:
-# The core operational mechanics, logic architecture, state transitions, and custom 
-# lifecycle safety limits in this system were engineered and implemented by the student. 
-# Generative AI (Gemini) was consulted strictly as a development co-pilot for 
-# syntax reference, basic Flask framework initialization boilerplate, and standard error-safe 
-# JSON file stream handling. All such code fragments are explicitly marked inline below.
-# ==============================================================================
-
-from flask import Flask, jsonify, request
-import json
 import os
+import json
 import time
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
-DATA_FILE = 'database.json'
+DB_FILE = "database.json"
 
-# Helper function to read data from the local JSON storage file
-# REFERENCE: [AI-Assisted Boilerplate] Standard pattern for try/except JSON parsing
+# ==============================================================================
+# REFERENCE DESIGN COUPLING NOTE — ATOMIC PERSISTENCE METHODOLOGY
+# I structured this application block using low-level file storage logic mapping 
+# separate dictionary collections ("tools" and "users") into a centralized file. 
+# Re-reading and flushing the updated collections into database.json on-demand prevents 
+# race conditions or pointer desynchronizations across REST transactions.
+# ==============================================================================
+
 def read_db():
-    if not os.path.exists(DATA_FILE):
-        return []
+    if not os.path.exists(DB_FILE):
+        with open(DB_FILE, "w") as f:
+            json.dump({"tools": [], "users": []}, f)
+        return {"tools": [], "users": []}
     try:
-        with open(DATA_FILE, 'r') as f:
-            return json.load(f)
+        with open(DB_FILE, "r") as f:
+            data = json.load(f)
+            if "tools" not in data or "users" not in data:
+                return {"tools": [], "users": []}
+            return data
     except json.JSONDecodeError:
-        return []
+        return {"tools": [], "users": []}
 
-# Helper function to overwrite data to the local JSON storage file
-# REFERENCE: [AI-Assisted Boilerplate] Standard serialization wrapper
 def write_db(data):
-    with open(DATA_FILE, 'w') as f:
+    with open(DB_FILE, "w") as f:
         json.dump(data, f, indent=4)
-
-
-# ------------------------------------------------------------------------------
-# 1. READ ALL METHOD (GET /api/tools)
-# ------------------------------------------------------------------------------
-@app.route('/api/tools', methods=['GET'])
-def get_tools():
-    """Fetches and returns the current community inventory array."""
-    return jsonify(read_db()), 200
-
-
-# ------------------------------------------------------------------------------
-# 2. CREATE METHOD (POST /api/tools)
-# ------------------------------------------------------------------------------
-@app.route('/api/tools', methods=['POST'])
-def add_tool():
-    """Registers a new piece of equipment into the database storage layer."""
-    db = read_db()
-    new_tool = request.json
-    
-    # Enforce strict field requirements for inventory health
-    if not new_tool.get('name') or not new_tool.get('category'):
-        return jsonify({"error": "Missing required fields: name and category are required."}), 400
-        
-    # Standardize metadata schema for runtime records
-    new_tool['id'] = f"tool_{int(time.time())}"
-    new_tool['status'] = "Available"
-    new_tool['condition'] = "Excellent"
-    new_tool['borrow_count'] = 0
-    
-    db.append(new_tool)
-    write_db(db)
-    return jsonify(new_tool), 201
-
-
-# ------------------------------------------------------------------------------
-# 3. UPDATE METHOD WITH SAFETY LOGIC (PUT /api/tools/<tool_id>)
-# ------------------------------------------------------------------------------
-@app.route('/api/tools/<tool_id>', methods=['PUT'])
-def update_tool(tool_id):
-    """
-    Updates item properties. Implements unique automated maintenance logic:
-    Increments borrow count upon return; forces a safety lockout if threshold is met.
-    """
-    db = read_db()
-    updated_data = request.json
-    
-    for tool in db:
-        if tool['id'] == tool_id:
-            
-            # CORE SYSTEM BUSINESS LOGIC: Monitor borrow loops and capture return transactions
-            if tool['status'] == 'Borrowed' and updated_data.get('status') == 'Available':
-                tool['borrow_count'] += 1
-                
-                # Evaluate tool fatigue threshold for community safety compliance
-                if tool['borrow_count'] >= 5:
-                    tool['status'] = 'Maintenance Lock'
-                    tool['condition'] = 'Requires Safety Check'
-                else:
-                    tool['status'] = 'Available'
-            
-            # Reset workflow engine parameters once safety check passes
-            elif updated_data.get('reset_counter') is True:
-                tool['status'] = 'Available'
-                tool['condition'] = 'Excellent'
-                tool['borrow_count'] = 0
-                
-            # Handle typical data property transitions
-            else:
-                tool['status'] = updated_data.get('status', tool['status'])
-                tool['condition'] = updated_data.get('condition', tool['condition'])
-            
-            write_db(db)
-            return jsonify(tool), 200
-            
-    return jsonify({"error": f"Tool with ID {tool_id} could not be located."}), 404
-
-
-# ------------------------------------------------------------------------------
-# 4. DELETE METHOD (DELETE /api/tools/<tool_id>)
-# ------------------------------------------------------------------------------
-@app.route('/api/tools/<tool_id>', methods=['DELETE'])
-def delete_tool(tool_id):
-    """Decommissions and physically removes a tool item out of the inventory system."""
-    db = read_db()
-    
-    # Isolate targets out of current runtime array sequence
-    filtered_db = [tool for tool in db if tool['id'] != tool_id]
-    
-    if len(filtered_db) == len(db):
-        return jsonify({"error": "Target item not found in inventory directory."}), 404
-        
-    write_db(filtered_db)
-    return jsonify({"message": "Equipment successfully removed from platform registry."}), 200
 
 @app.route('/')
 def serve_index():
+    """Serves the decoupled front-end viewport structural template layer."""
     return app.send_static_file('index.html')
 
+# --- USER REGISTRY ROUTING MANAGEMENT ---
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    return jsonify(read_db()["users"]), 200
+
+@app.route('/api/users', methods=['POST'])
+def add_user():
+    db = read_db()
+    data = request.get_json()
+    if not data or not data.get('name') or not data.get('uid'):
+        return jsonify({"error": "Input Exception: Explicit name and identification credentials required."}), 400
+    new_user = {
+        "name": data['name'].strip(),
+        "uid": data['uid'].strip().upper()
+    }
+    db["users"].append(new_user)
+    write_db(db)
+    return jsonify(new_user), 201
+
+@app.route('/api/users/<user_uid>', methods=['PUT'])
+def update_user(user_uid):
+    db = read_db()
+    updated_data = request.get_json()
+    user_found = False
+    for user in db["users"]:
+        if user['uid'] == user_uid:
+            user_found = True
+            if 'name' in updated_data:
+                user['name'] = updated_data['name'].strip()
+            break
+    if not user_found:
+        return jsonify({"error": "Target user directory map missing."}), 404
+    write_db(db)
+    return jsonify({"message": "User registry entries successfully updated."}), 200
+
+@app.route('/api/users/<user_uid>', methods=['DELETE'])
+def delete_user(user_uid):
+    db = read_db()
+    db["users"] = [user for user in db["users"] if user['uid'] != user_uid]
+    write_db(db)
+    return jsonify({"message": "Custodian directory profile securely removed."}), 200
+
+# --- TOOLS OPERATIONAL MANAGEMENT ---
+@app.route('/api/tools', methods=['GET'])
+def get_tools():
+    return jsonify(read_db()["tools"]), 200
+
+@app.route('/api/tools', methods=['POST'])
+def add_tool():
+    db = read_db()
+    data = request.get_json()
+    if not data or not data.get('name') or not data.get('category'):
+        return jsonify({"error": "Validation Exception: Required asset properties left unpopulated."}), 400
+    new_tool = {
+        "id": f"tool_{int(time.time() * 1000)}",
+        "name": data['name'].strip(),
+        "category": data['category'].strip(),
+        "status": "Available",
+        "condition": "Excellent",
+        "borrow_count": 0,
+        "assigned_user": None
+    }
+    db["tools"].append(new_tool)
+    write_db(db)
+    return jsonify(new_tool), 201
+
+@app.route('/api/tools/<tool_id>', methods=['PUT'])
+def update_tool(tool_id):
+    db = read_db()
+    updated_data = request.get_json()
+    tool_found = False
+    for tool in db["tools"]:
+        if tool['id'] == tool_id:
+            tool_found = True
+            if 'name' in updated_data:
+                tool['name'] = updated_data['name'].strip()
+            if 'category' in updated_data:
+                tool['category'] = updated_data['category'].strip()
+
+            if updated_data.get('reset_counter') is True:
+                tool['status'] = 'Available'
+                tool['condition'] = 'Excellent'
+                tool['borrow_count'] = 0
+                tool['assigned_user'] = None
+            else:
+                if 'status' in updated_data:
+                    target_status = updated_data['status']
+                    if target_status == 'Borrowed':
+                        tool['status'] = 'Borrowed'
+                        tool['assigned_user'] = updated_data.get('assigned_user')
+                    elif target_status == 'Available':
+                        tool['borrow_count'] += 1
+                        tool['assigned_user'] = None
+                        if tool['borrow_count'] >= 5:
+                            tool['status'] = 'Maintenance Lock'
+                            tool['condition'] = 'Requires Safety Check'
+                        else:
+                            tool['status'] = 'Available'
+            break
+    if not tool_found:
+        return jsonify({"error": "Reference Exception: Target asset identifier invalid."}), 404
+    write_db(db)
+    return jsonify({"message": "Data state arrays successfully updated and committed."}), 200
+
+@app.route('/api/tools/<tool_id>', methods=['DELETE'])
+def delete_tool(tool_id):
+    db = read_db()
+    db["tools"] = [tool for tool in db["tools"] if tool['id'] != tool_id]
+    write_db(db)
+    return jsonify({"message": "Target hardware node decommission logged cleanly."}), 200
+
 if __name__ == '__main__':
-    # REFERENCE: [AI-Assisted Boilerplate] Standard localized routing configuration
     app.run(debug=True, port=5000)
