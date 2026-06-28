@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "name": "Makita Angle Grinder",
+        "category": "Power tools",
+        "id": "tool_1782660362",
+        "status": "Available",
+        "condition": "Excellent",
+        "borrow_count": 0
+    }
+]

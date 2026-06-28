@@ -133,6 +133,9 @@ def delete_tool(tool_id):
     write_db(filtered_db)
     return jsonify({"message": "Equipment successfully removed from platform registry."}), 200
 
+@app.route('/')
+def serve_index():
+    return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     # REFERENCE: [AI-Assisted Boilerplate] Standard localized routing configuration

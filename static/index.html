@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetLock - Centralized Compliance Tracking Engine</title>
+</head>
+<body>
+
+    <h1>AssetLock Ecosystem</h1>
+    <p>Centralized community asset tracking & safety enforcement portal.</p>
+    
+    <hr>
+
+    <h2>Provision New Equipment Asset</h2>
+    <form id="toolForm">
+        <label for="toolName">Equipment Name:</label>
+        <input type="text" id="toolName" required placeholder="e.g., Makita Angle Grinder">
+        
+        <label for="toolCategory">Category:</label>
+        <input type="text" id="toolCategory" required placeholder="e.g., Power Tools">
+        
+        <button type="submit">Provision Asset</button>
+    </form>
+
+    <hr>
+
+    <h2>Operational Fleet Inventory</h2>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>System ID</th>
+                <th>Asset Descriptor</th>
+                <th>Category Cluster</th>
+                <th>Current Status</th>
+                <th>Health Condition</th>
+                <th>Usage Counter</th>
+                <th>Lifecycle Actions</th>
+            </tr>
+        </thead>
+        <tbody id="inventoryTableBody">
+            </tbody>
+    </table>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
