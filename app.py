@@ -7,9 +7,9 @@ app = Flask(__name__)
 DB_FILE = "database.json"
 
 # ==============================================================================
-# REFERENCE DESIGN COUPLING NOTE — ATOMIC PERSISTENCE METHODOLOGY
+# REFERENCE DESIGN COUPLING NOTE — AUDIT PERSISTENCE METHODOLOGY
 # I structured this application block using low-level file storage logic mapping 
-# separate dictionary collections ("tools" and "users") into a centralized file. 
+# separate dictionary collections ("tools", "users", and "history") into a centralized file. 
 # Re-reading and flushing the updated collections into database.json on-demand prevents 
 # race conditions or pointer desynchronizations across REST transactions.
 # ==============================================================================
@@ -17,25 +17,34 @@ DB_FILE = "database.json"
 def read_db():
     if not os.path.exists(DB_FILE):
         with open(DB_FILE, "w") as f:
-            json.dump({"tools": [], "users": []}, f)
-        return {"tools": [], "users": []}
+            json.dump({"tools": [], "users": [], "history": []}, f)
+        return {"tools": [], "users": [], "history": []}
     try:
         with open(DB_FILE, "r") as f:
             data = json.load(f)
-            if "tools" not in data or "users" not in data:
-                return {"tools": [], "users": []}
+            if "tools" not in data or "users" not in data or "history" not in data:
+                return {"tools": data.get("tools", []), "users": data.get("users", []), "history": data.get("history", [])}
             return data
     except json.JSONDecodeError:
-        return {"tools": [], "users": []}
+        return {"tools": [], "users": [], "history": []}
 
 def write_db(data):
     with open(DB_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
+# Helper function to generate an automated transaction timestamp string
+def get_timestamp():
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
 @app.route('/')
 def serve_index():
-    """Serves the decoupled front-end viewport structural template layer."""
     return app.send_static_file('index.html')
+
+# --- HISTORY AUDIT REGISTRY ENDPOINT ---
+@app.route('/api/history', methods=['GET'])
+def get_history():
+    """Retrieves the full immutable transaction logging stream."""
+    return jsonify(read_db()["history"]), 200
 
 # --- USER REGISTRY ROUTING MANAGEMENT ---
 @app.route('/api/users', methods=['GET'])
@@ -111,6 +120,7 @@ def update_tool(tool_id):
     for tool in db["tools"]:
         if tool['id'] == tool_id:
             tool_found = True
+            
             if 'name' in updated_data:
                 tool['name'] = updated_data['name'].strip()
             if 'category' in updated_data:
@@ -121,20 +131,69 @@ def update_tool(tool_id):
                 tool['condition'] = 'Excellent'
                 tool['borrow_count'] = 0
                 tool['assigned_user'] = None
+                
+                # Append Administrative Override Log
+                db["history"].append({
+                    "timestamp": get_timestamp(),
+                    "asset_name": tool['name'],
+                    "action": "Supervisor Override Safety Reset",
+                    "operator": "SYSTEM ADMINISTRATOR",
+                    "user_uid": "SYSTEM"
+                })
             else:
                 if 'status' in updated_data:
                     target_status = updated_data['status']
                     if target_status == 'Borrowed':
                         tool['status'] = 'Borrowed'
                         tool['assigned_user'] = updated_data.get('assigned_user')
+                        
+                        # Extract the UID from the dropdown string format: "Name [UID]"
+                        operator_str = tool['assigned_user']
+                        user_uid = "SYSTEM"
+                        if "[" in operator_str and "]" in operator_str:
+                            user_uid = operator_str.split("[")[1].split("]")[0].strip()
+                        
+                        # Append Checkout Log
+                        db["history"].append({
+                            "timestamp": get_timestamp(),
+                            "asset_name": tool['name'],
+                            "action": "Authorized Checkout",
+                            "operator": operator_str,
+                            "user_uid": user_uid
+                        })
                     elif target_status == 'Available':
+                        old_user = tool.get('assigned_user', 'Unknown Operator')
                         tool['borrow_count'] += 1
                         tool['assigned_user'] = None
+                        
+                        # Extract the UID tracking parameter out of the active string
+                        user_uid = "SYSTEM"
+                        if "[" in old_user and "]" in old_user:
+                            user_uid = old_user.split("[")[1].split("]")[0].strip()
+                        
                         if tool['borrow_count'] >= 5:
                             tool['status'] = 'Maintenance Lock'
                             tool['condition'] = 'Requires Safety Check'
+                            
+                            # Append Automated Lockout Warning Log
+                            db["history"].append({
+                                "timestamp": get_timestamp(),
+                                "asset_name": tool['name'],
+                                "action": "Maintenance Lock Engaged (5-Cycle Limit reached)",
+                                "operator": f"Returned by {old_user}",
+                                "user_uid": user_uid
+                            })
                         else:
                             tool['status'] = 'Available'
+                            
+                            # Append Standard Safe Return Log
+                            db["history"].append({
+                                "timestamp": get_timestamp(),
+                                "asset_name": tool['name'],
+                                "action": "Inventory Safe Return",
+                                "operator": f"Returned by {old_user}",
+                                "user_uid": user_uid
+                            })
             break
     if not tool_found:
         return jsonify({"error": "Reference Exception: Target asset identifier invalid."}), 404

@@ -4,18 +4,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const inventoryGrid = document.getElementById("inventoryGrid");
     const searchBar = document.getElementById("searchBar");
     const userBadgeRegistry = document.getElementById("userBadgeRegistry");
+    const complianceHistoryLog = document.getElementById("complianceHistoryLog");
     
+    // Client-side visual caches representing database state blocks locally in browser
     let localCache = [];
     let activeUsers = [];
+    let localHistoryCache = []; // Persistent storage for parsing records locally on demand
 
+    // --- FUNCTION A: REST ASYNC HOOK RECOVERY (READ SYNCING PIPELINE WITH HISTORY) ---
     async function loadInventory() {
         try {
-            const [toolsRes, usersRes] = await Promise.all([
+            // Simultaneously fetch tools, users directory, and transaction history
+            const [toolsRes, usersRes, historyRes] = await Promise.all([
                 fetch('/api/tools'),
-                fetch('/api/users')
+                fetch('/api/users'),
+                fetch('/api/history')
             ]);
             localCache = await toolsRes.json();
             activeUsers = await usersRes.json();
+            localHistoryCache = await historyRes.json();
+            
+            // Decoupling step: trigger data calculators and populate interface structural grids
             calculateTelemetryMetrics(localCache);
             renderUserRegistry(activeUsers);
             renderGrid(localCache);
@@ -24,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // --- FUNCTION B: TELEMETRY SYSTEM CALCULATOR ENGINE ---
     function calculateTelemetryMetrics(tools) {
         document.getElementById("statTotal").textContent = tools.length;
         document.getElementById("statAvailable").textContent = tools.filter(t => t.status === "Available").length;
@@ -31,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("statLocked").textContent = tools.filter(t => t.status === "Maintenance Lock").length;
     }
 
+    // --- FUNCTION C: CUSTODIAN BUBBLE DATA MAP DISPATCHER WITH ISOLATED LOG TRIGGERS ---
     function renderUserRegistry(users) {
         userBadgeRegistry.innerHTML = "";
         if (users.length === 0) {
@@ -55,11 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <code style="font-size: 0.75rem; color: var(--al-muted);">[ID: ${user.uid}]</code>
                 </div>
                 <div id="user-edit-${user.uid}" style="display: none; align-items: center; gap: 10px; flex: 1;">
-                    <input type="text" id="edit-username-${user.uid}" value="${user.name}" class="al-input" style="padding: 4px 8px; font-size: 0.85rem; width: 200px;">
-                    <button class="al-btn al-btn--primary" onclick="saveUserInlineEdits('${user.uid}')" style="padding: 4px 10px; font-size: 0.75rem;">Save</button>
-                    <button class="al-btn al-btn--secondary" onclick="toggleUserEditMode('${user.uid}')" style="padding: 4px 10px; font-size: 0.75rem;">Cancel</button>
+                    <input type="text" id="edit-username-${user.uid}" value="${user.name}" class="al-input" style="padding: 4px 8px; font-size: 0.85rem; width: 140px;">
+                    <button class="al-btn al-btn--primary" onclick="saveUserInlineEdits('${user.uid}')" style="padding: 4px 8px; font-size: 0.75rem;">Save</button>
+                    <button class="al-btn al-btn--secondary" onclick="toggleUserEditMode('${user.uid}')" style="padding: 4px 8px; font-size: 0.75rem;">Cancel</button>
                 </div>
-                <div style="display: flex; gap: 8px;">
+                <div style="display: flex; gap: 6px;">
+                    <button class="al-btn" onclick="viewSpecificUserHistory('${user.uid}', '${user.name}')" style="padding: 4px 10px; font-size: 0.75rem; background-color: rgba(245, 158, 11, 0.15); color: var(--al-amber); border: 1px solid rgba(245, 158, 11, 0.3);">History</button>
                     <button class="al-btn al-btn--secondary" onclick="toggleUserEditMode('${user.uid}')" style="padding: 4px 10px; font-size: 0.75rem;">Modify</button>
                     <button class="al-btn al-btn--danger" onclick="removeRegisteredUser('${user.uid}')" style="padding: 4px 10px; font-size: 0.75rem; background: rgba(239, 68, 68, 0.1);">Remove</button>
                 </div>
@@ -68,6 +80,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- FUNCTION C2: CONDITIONAL CLIENT ARRAY LOG FILTER AND OVERLAY INJECTOR ---
+    window.viewSpecificUserHistory = (uid, name) => {
+        // Mutate the slide drawer title component dynamically to indicate scope focus
+        document.getElementById("drawerTitle").innerHTML = `📜 Logs: ${name} <code style="font-size:0.8rem; color:var(--al-muted);">[${uid}]</code>`;
+        
+        complianceHistoryLog.innerHTML = "";
+        
+        // Isolate specific entry logs where unique identifier markers match the selector query
+        const filteredEntries = localHistoryCache.filter(entry => entry.user_uid === uid);
+
+        if (filteredEntries.length === 0) {
+            complianceHistoryLog.innerHTML = `<span style="color: var(--al-muted); font-size: 0.85rem; padding: 12px 4px;">No checkout or return activities logged for this custodian.</span>`;
+        } else {
+            // Build visual timeline layers stacking recent audit trails onto the top viewport
+            filteredEntries.slice().reverse().forEach(entry => {
+                const row = document.createElement("div");
+                row.style.fontSize = "0.82rem";
+                row.style.padding = "10px 12px";
+                row.style.background = "#141b2d";
+                row.style.borderRadius = "8px";
+                row.style.borderLeft = "3px solid var(--al-blue)";
+                row.style.display = "flex";
+                row.style.flexDirection = "column";
+                row.style.gap = "4px";
+                row.style.fontFamily = "monospace";
+
+                if (entry.action.includes("Lock")) {
+                    row.style.borderLeftColor = "var(--al-crimson)";
+                    row.style.background = "rgba(239, 68, 68, 0.05)";
+                } else if (entry.action.includes("Reset")) {
+                    row.style.borderLeftColor = "var(--al-emerald)";
+                }
+
+                row.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; color: var(--al-muted); font-size: 0.72rem;">
+                        <span>${entry.timestamp}</span>
+                    </div>
+                    <div style="color: var(--al-text); font-weight: 500;">
+                        <strong style="color: #fff;">${entry.asset_name}</strong>: ${entry.action}
+                    </div>
+                `;
+                complianceHistoryLog.appendChild(row);
+            });
+        }
+
+        // Engage CSS rules to pull sliding drawer layout forward visibly
+        document.getElementById("historyDrawer").classList.add("active");
+    };
+
+    // --- FUNCTION D: CORE HIGH-FIDELITY LAYOUT PANEL MATRIX RENDERER ---
     function renderGrid(tools) {
         inventoryGrid.innerHTML = ""; 
         tools.forEach(tool => {
@@ -123,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- FUNCTION E: CONDITIONAL COMPONENT ACTION HOOK CONTROLLER ---
     function renderInteractionButtons(tool) {
         if (tool.status === "Available") {
             let optionsHTML = `<option value="">-- Select Registered Operator --</option>`;
@@ -275,5 +338,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    window.toggleHistoryDrawer = () => {
+        document.getElementById("historyDrawer").classList.remove("active");
+    };
+
+    // Load datastore elements upon interface terminal session instantiation
     loadInventory();
 });
