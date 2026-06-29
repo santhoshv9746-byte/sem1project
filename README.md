@@ -32,9 +32,5 @@ In strict compliance with Dublin Business School Quality Assurance regulations a
 
 ## 📅 Development Milestones
 * **Day 1:** Repository Initialization, Storage JSON Schema Architecture, and Core Flask API CRUD Layout.
-* **Day 2:** UI/UX Dashboard Refactoring, Decoupled Asynchronous State Rendering, and Authorized Custodian Directory CRUD Engine.
-    * Refactored the core user interface from standard HTML tables into a high-fidelity, responsive corporate dark-themed cyber-grid layout layout using custom CSS variables and CSS keyframe warning animations.
-    * Engineered a client-side asynchronous data synchronization pipeline using `Promise.all` to fetch hardware asset objects and directory collections concurrently without blocking user experience layouts.
-    * Developed an interactive client-side query filter engine to match character string keyword inputs against arrays to selectively mutate viewport rows instantaneously.
-    * Expanded the database schemas and backend controller handlers to manage a separate operational database subset for an "Authorized Custodian Directory Registry."
-    * Implemented interactive inline dual-state form selectors (`Edit` vs `View` blocks) to support full, localized client-to-server REST workflows (`PUT`, `DELETE`) for managing both fleet hardware assets and user directory tags dynamically.
+* **Day 2:** UI/UX Dark-Theme Dashboard Refactoring, Asynchronous State Rendering, and Authorized Custodian Directory CRUD Engine.
+* **Day 3:** Google Cloud Platform (GCP) Compute Engine Infrastructure Provisioning, Gunicorn WSGI Optimization, and Persistent Production Deployment.
