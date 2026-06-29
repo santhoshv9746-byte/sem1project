@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+input, select, button {
+    padding: 6px;
+    margin: 4px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.user-row {
+    padding: 6px;
+    background: #eee;
+    margin: 4px 0;
+}

@@ -1,0 +1,270 @@
+{
+    "tools": [
+        {
+            "id": "tool_1782670180068",
+            "name": "Fluke 87V Industrial Multimeter",
+            "category": "Diagnostics & Calibration",
+            "status": "Available",
+            "condition": "Requires Inspection",
+            "borrow_count": 0,
+            "assigned_user": null
+        },
+        {
+            "id": "tool_1782670244106",
+            "name": "Makita Angle Grinder",
+            "category": "Power tools",
+            "status": "Available",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": null
+        },
+        {
+            "id": "tool_1782672566023",
+            "name": "DeWalt Cordless Brushless Drill (DCD708)",
+            "category": "Power tools",
+            "status": "Available",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": null
+        },
+        {
+            "id": "tool_1782672588087",
+            "name": "Bosch Professional Jigsaw (GST 90 BE)",
+            "category": "Power tools",
+            "status": "Available",
+            "condition": "Excellent",
+            "borrow_count": 0,
+            "assigned_user": null
+        }
+    ],
+    "users": [
+        {
+            "name": "Agni",
+            "uid": "1002"
+        },
+        {
+            "name": "John",
+            "uid": "1001"
+        },
+        {
+            "name": "prasath",
+            "uid": "103"
+        }
+    ],
+    "history": [
+        {
+            "timestamp": "2026-06-28 18:13:31",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:13:37",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:13",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "Agni [1002]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:14",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by Agni [1002]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:35",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:36",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:43",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "Agni [1002]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:47",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by Agni [1002]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:54",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:16:55",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Maintenance Lock Engaged (5-Cycle Limit reached)",
+            "operator": "Returned by John [1001]"
+        },
+        {
+            "timestamp": "2026-06-28 18:44:22",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Supervisor Override Safety Reset",
+            "operator": "SYSTEM ADMINISTRATOR",
+            "user_uid": "SYSTEM"
+        },
+        {
+            "timestamp": "2026-06-28 18:44:40",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:44:40",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:44:51",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "Agni [1002]",
+            "user_uid": "1002"
+        },
+        {
+            "timestamp": "2026-06-28 18:44:52",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by Agni [1002]",
+            "user_uid": "1002"
+        },
+        {
+            "timestamp": "2026-06-28 18:45:19",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:45:32",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:51:48",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:51:50",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:51:54",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:51:55",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:51:58",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:52:00",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Maintenance Lock Engaged (5-Cycle Limit reached)",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 18:52:11",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Authorized Checkout",
+            "operator": "Agni [1002]",
+            "user_uid": "1002"
+        },
+        {
+            "timestamp": "2026-06-28 18:59:47",
+            "asset_name": "Makita Angle Grinder",
+            "action": "Supervisor Override Safety Reset",
+            "operator": "SYSTEM ADMINISTRATOR",
+            "user_uid": "SYSTEM"
+        },
+        {
+            "timestamp": "2026-06-28 19:00:38",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by Agni [1002]",
+            "user_uid": "1002"
+        },
+        {
+            "timestamp": "2026-06-28 19:00:48",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Authorized Checkout",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-06-28 19:00:52",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Inventory Safe Return",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-07-03 12:07:53",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Borrowed",
+            "operator": "John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-07-03 12:07:55",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Returned Safely",
+            "operator": "Returned by John [1001]",
+            "user_uid": "1001"
+        },
+        {
+            "timestamp": "2026-07-03 12:07:58",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Borrowed",
+            "operator": "prasath [103]",
+            "user_uid": "103"
+        },
+        {
+            "timestamp": "2026-07-03 12:07:59",
+            "asset_name": "Fluke 87V Industrial Multimeter",
+            "action": "Locked for Maintenance (5 Cycles Reached)",
+            "operator": "Returned by prasath [103]",
+            "user_uid": "103"
+        }
+    ]
+}
