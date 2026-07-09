@@ -1,6 +1,6 @@
 # 🔧 ToolShare Admin Platform
 
-## 📋 Assessment Cover Sheet
+##  Assessment Cover Sheet
 * **Student Name:** Santhosh Vellamuthu
 * **Student Number:** 20090020
 * **Programme:** MSc in Information Systems with Computing
@@ -10,10 +10,10 @@
 
 ---
 
-## 🛠️ Project Overview
-**ToolShare** is a centralized web platform designed to streamline neighborhood equipment sharing while actively tracking safety and maintenance compliance. By replacing old-fashioned physical clipboards and paper logs, the system introduces an intuitive, live dashboard that handles real-time equipment checkouts, instant availability updates, and automated lifecycle tracking. 
+##  Project Overview
+**ToolShare** is an app that makes borrowing tools easy, safe, and entirely paperless. Instead of physical clipboards or who has the lawnower, our lives dashboard lets us see whats available instantly. it automatically tracks maintenance and safety checks in the background, so we always know the gear we are borrowing is safe to use.
 
-The entire platform is built with a lightweight Python/Flask backend and a clean, responsive semantic frontend user interface. It is deployed using an automated cloud pipeline that seamlessly syncs code updates directly from version control to production hosting.
+Built on a fast Python/Flask backbone with a mobile-friendly interface. ToolShare stays updated automatically. Everytime we improve the code, our cloud pipeline pushes the updates live instantly without breaking a sweat.
 
 ### 🛡️ Unique Feature: Usage-Based Safety Lock & Inspection Engine
 To address real-world safety concerns inside a shared community environment, this application features an automated usage-tracking mechanism built directly into the backend business logic:
