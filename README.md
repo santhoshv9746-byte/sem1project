@@ -25,7 +25,7 @@ The platform is built as a lightweight, cohesive application using five core tec
 
 1. **Python (Backend)**: Handles the core logic in app.py, managing data flow between the user interface and our storage layer.
 
-2. **JSON (Datastore)**: Serves as our nimble database (database.json), organizing clean records for tools, users, and loan histories.
+2. **JSON (Datastore)**: Serves as our nimble database (database.json), organizing clean records for tools, users.
 
 3. **HTML5 (Frontend Structure)**: Forms the skeleton of the app via index.html, rendering the inventory tables, forms, and status cards.
 
