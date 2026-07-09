@@ -1,7 +1,6 @@
 ---
 # Academic Integrity & Generative AI Attributions Log
-
-This document serves as an explicit disclosure of developmental assistance, boilerplate elements, and generative AI utilization for the **AssetLock** MSc information systems project.
+This register is a straightforward, transparent breakdown of where generative AI was used to help bounce ideas around, set up boilerplate code, or scaffold the initial architecture for the **ToolShare Asset Management System** master's project.
 
 ---
 
