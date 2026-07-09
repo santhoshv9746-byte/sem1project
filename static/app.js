@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let tools = [];
     let users = [];
 
-    // NOTE: Utilized AI reference patterns to construct the baseline async/await fetch wrapper logic.
     async function refreshData() {
         const toolsRes = await fetch('/api/tools');
         const usersRes = await fetch('/api/users');
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTools(tools);
     }
 
-    // Wrote native JavaScript forEach loops to dynamically mutate the DOM tree cards
     function renderUsers() {
         const container = document.getElementById("userList");
         container.innerHTML = "";
@@ -35,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const div = document.createElement("div");
             div.className = "card";
             
-            // Changes element fields instantly depending on current database statuses
             let actionHTML = "";
             if (t.status === "Available") {
                 let options = `<option value="">-- Assign User --</option>`;
@@ -61,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Interactive Submit Handlers with e.preventDefault() to handle database updates seamlessly.
     toolForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         await fetch('/api/tools', {
@@ -90,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshData();
     });
 
-    // Native search string query array matcher filters matching items instantly
     searchBar.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
         const filtered = tools.filter(t => t.name.toLowerCase().includes(query));
