@@ -11,34 +11,38 @@
 ---
 
 ##  Project Overview
-**ToolShare** is an app that makes borrowing tools easy, safe, and entirely paperless. Instead of physical clipboards or who has the lawnower, our lives dashboard lets us see whats available instantly. it automatically tracks maintenance and safety checks in the background, so we always know the gear we are borrowing is safe to use.
+**ToolShare** is a web app designed to make borrowing tools simple, safe, and entirely paperless. Instead of dealing with messy physical sign-out sheets or guessing who currently has the lawnmower, our live dashboard lets neighbors see exactly what’s available in real time. Because safety matters in a shared community, the app works in the background to automatically track tool wear and trigger maintenance flags, ensuring everything checked out is actually safe to use.
 
-Built on a fast Python/Flask backbone with a mobile-friendly interface. ToolShare stays updated automatically. Everytime we improve the code, our cloud pipeline pushes the updates live instantly without breaking a sweat.
+Under the hood, ToolShare is built on a fast, lightweight Python/Flask backend paired with a fully responsive, mobile-friendly frontend. We also set up a continuous deployment pipeline in the cloud, meaning any time we push a code improvement, the updates roll out live instantly without a hitch.
 
-### 🛡️ Unique Feature: Usage-Based Safety Lock & Inspection Engine
-To address real-world safety concerns inside a shared community environment, this application features an automated usage-tracking mechanism built directly into the backend business logic:
-* Every time a tool is checked out and returned, its operational cycle counter increments by `1`.
-* When an asset hits a threshold of **5 borrow cycles**, the backend controller automatically intercepts the data state, triggers a status shift to **"Maintenance Lock"**, and flags the record as **"Requires Inspection."**
-* The JavaScript frontend instantly updates the Document Object Model (DOM) to strip away active checkout controls, freezing the node from public deployment until an authorized supervisor performs a physical safety check and executes a manual maintenance reset.
+### Feature Spotlight: Smart Safety Locks
+To make sure nobody borrows a broken weed wacker, I built an automated usage tracker directly into the backend. Every checkout-and-return cycle bumps a tool's counter up by 1. The moment a tool hits 5 cycles, the backend automatically triggers a **"Maintenance Lock"** and flags it as **"Requires Inspection."** JavaScript instantly catches this on the frontend, hiding the checkout buttons and slapping a warning label on the item. It stays locked down until a supervisor physically inspects the tool and resets the counter.
 
 ---
 
-## 📊 Technical Architecture & Language Stack
-The platform functions as a single, unified monolithic web application structured across four core technologies:
-1. **Python (Backend):** Powers `app.py` to handle the REST API routing logic, HTTP request processing, and sequential updates to the data layer.
-2. **JSON (Datastore):** Acts as the flat-file database storage layer (`database.json`), maintaining independent collections for `tools`, `users`, and system transaction records.
-3. **HTML5 (Frontend Structure):** Provides the clean semantic layout matrix inside `index.html` to render forms, user tables, and status cards.
-4. **CSS3 (Design Styles):** Implements a clean, readable light corporate framework inside `style.css` for clear visual margins and intuitive status coloring.
-5. **JavaScript (Frontend Logic):** Executes asynchronous API calls, manages form interactions, filters arrays in real-time based on search parameters, and dynamically mutates viewport grid blocks without requiring page reloads.
+## Tech Stack & System Architecture
+The platform is built as a lightweight, cohesive application using five core technologies:
+
+1. **Python (Backend)**: Handles the core logic in app.py, managing data flow between the user interface and our storage layer.
+
+2. **JSON (Datastore)**: Serves as our nimble database (database.json), organizing clean records for tools, users, and loan histories.
+
+3. **HTML5 (Frontend Structure)**: Forms the skeleton of the app via index.html, rendering the inventory tables, forms, and status cards.
+
+4. **CSS3 (Styling)**: Powers the layout in style.css, utilizing distinct alert colors to make locked tools stand out visually.
+
+5. **JavaScript (Frontend Logic)**: Drives the live, dynamic updates in app.js—like searching, filtering, and checking out items—without annoying page reloads.
 
 ---
 
-## 🛡️ Academic Integrity & GenAI Attribution Register
-In strict compliance with Dublin Business School Quality Assurance regulations and the guidelines established under the **Generative Artificial Intelligence Assessment Scale (Category 4: AI Task Completion, Human Evaluation)**, this document registers all external development assistance:
+## AI Attribution & Academic Integrity
+To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessment Scale (Category 4), here is exactly how GenAI helped shape this project:
 
-* **Assistance Source:** Co-developed with Gemini (Large Language Model by Google).
-* **Scope of Assistance:** AI assistance was utilized to brainstorm structural code syntax, design the file schema tracking system for `database.json`, and generate the foundational layout for the Flask backend routing matrix.
-* **Student Verification:** The structural parameters, edge-case validation testing logic, specific usage-based math counter parameters, and final script debugging calibrations were checked, tested, and systematically committed to the repository manually by the student.
+**The Collaborator**: Gemini (Google LLM).
+
+**The AI's Job**: I used Gemini as an architectural sounding board to map out some of the trickier data patterns, such as setting up safe read_db and write_db functions to avoid JSON corruption, structuring user-lookup routes, and scaffolding the asynchronous async/await pipeline in JS.
+
+**My Job** : While AI helped lay the foundational tracks, I wrote and customized all the actual mechanics. The 5-cycle threshold logic, data validation, UI state switching, and live DOM updates were entirely designed, written, and iteratively committed by me.
 
 ---
 
