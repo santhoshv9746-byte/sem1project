@@ -6,8 +6,6 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 DB_FILE = "database.json"
 
-# NOTE: The basic read/write file structure boilerplate was referenced using AI,
-# but manually verified and configured to handle local JSON arrays safely.
 def read_db():
     if not os.path.exists(DB_FILE):
         with open(DB_FILE, "w") as f:
@@ -23,7 +21,6 @@ def write_db(data):
 def index():
     return app.send_static_file('index.html')
 
-# --- API ROUTES FOR TOOLS ---
 @app.route('/api/tools', methods=['GET', 'POST'])
 def handle_tools():
     db = read_db()
@@ -33,7 +30,7 @@ def handle_tools():
             return jsonify({"error": "Missing data"}), 400
         
         new_tool = {
-            "id": f"tool_{int(time.time())}", # Used standard timestamping for unique IDs
+            "id": f"tool_{int(time.time())}",
             "name": data['name'].strip(),
             "category": data['category'].strip(),
             "status": "Available",
@@ -58,10 +55,8 @@ def update_delete_tool(tool_id):
         write_db(db)
         return jsonify({"message": "Deleted"}), 200
 
-    # PUT Method
     data = request.get_json()
     
-    # Manually implemented counter increments and safety threshold intercepts
     if data.get('reset_counter'):
         tool.update({"status": "Available", "borrow_count": 0, "assigned_user": None})
     elif 'status' in data:
@@ -69,15 +64,12 @@ def update_delete_tool(tool_id):
         tool['assigned_user'] = data.get('assigned_user')
         if data['status'] == 'Available':
             tool['borrow_count'] += 1
-            # Safety Intercept Lockout mechanism (5 Cycles Limit)
             if tool['borrow_count'] >= 5:
                 tool['status'] = 'Maintenance Lock'
 
     write_db(db)
     return jsonify({"message": "Updated"}), 200
 
-# --- API ROUTES FOR USERS ---
-# NOTE: Referenced AI patterns to map out the secondary multi-collection user endpoints cleanly.
 @app.route('/api/users', methods=['GET', 'POST'])
 def handle_users():
     db = read_db()
