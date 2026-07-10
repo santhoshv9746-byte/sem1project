@@ -18,3 +18,5 @@ This register is a straightforward, transparent breakdown of where generative AI
 **Payload Validation Checks:** I personally built the validation rules for incoming data. I refactored the data parser to catch empty form fields right away, forcing an immediate HTTP 400 Bad Request if mandatory fields like name or category are missing.
 
 **Collision-Free Tracking IDs:** I coded an automatic timestamping feature (tool_{timestamp}) using native Python tools to guarantee that every single asset gets a permanently unique database key.
+
+**Architectural Schema Resolution:** I mapped out the base layout for database.json. While I included a history array placeholder as a blueprint for future audit logs, I focused the actual business logic strictly on the tools array state to keep the core assignment requirements clean and functional.
