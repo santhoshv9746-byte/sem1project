@@ -51,3 +51,10 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 1. **Completed Code Assets:** app.py (Storage helpers, core Flask server, and the /api/tools endpoints) and index.html (Header structure and the "Add New Tool" form layout).
 
 2. **GenAI Utilization:** I used Gemini to quickly spin up a baseline Flask server structure. I also leaned on AI patterns to figure out how to safely handle local file-writing on disk and map out the initial routing layout.
+
+3. **Modifications & Refinement:**
+  **Data Validation:** I refactored the incoming data parsers to block empty form submissions,       making sure the server throws a clear HTTP 400 bad request if any critical info is missing.
+  
+ **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
+  
+  **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
