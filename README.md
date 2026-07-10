@@ -11,9 +11,9 @@
 ---
 
 ##  Project Overview
-**ToolShare** is a web app designed to make borrowing tools simple, safe, and entirely paperless. Instead of dealing with messy physical sign-out sheets or guessing who currently has the lawnmower, our live dashboard lets neighbors see exactly what’s available in real time. Because safety matters in a shared community, the app works in the background to automatically track tool wear and trigger maintenance flags, ensuring everything checked out is actually safe to use.
+**ToolShare** is a web app designed to make borrowing tools simple, safe, and entirely paperless. Instead of dealing with messy physical sign-out sheets or guessing who currently has the lawnmower, our live dashboard lets us to see exactly what’s available in real time. Because safety matters while sharing any tools, the app works in the background to automatically track tool wear and trigger maintenance flags, ensuring everything checked out is actually safe to use.
 
-Under the hood, ToolShare is built on a fast, lightweight Python/Flask backend paired with a fully responsive, mobile-friendly frontend. We also set up a continuous deployment pipeline in the cloud, meaning any time we push a code improvement, the updates roll out live instantly without a hitch.
+Under the hood, ToolShare is built on a fast, lightweight Python/Flask backend paired with a fully responsive, mobile-friendly frontend. I also set up a continuous deployment pipeline in the cloud, meaning any time I push a code improvement, the updates roll out live instantly without a hitch.
 
 ### Feature Spotlight: Smart Safety Locks
 To make sure nobody borrows a broken weed wacker, I built an automated usage tracker directly into the backend. Every checkout-and-return cycle bumps a tool's counter up by 1. The moment a tool hits 5 cycles, the backend automatically triggers a **"Maintenance Lock"** and flags it as **"Requires Inspection."** JavaScript instantly catches this on the frontend, hiding the checkout buttons and slapping a warning label on the item. It stays locked down until a supervisor physically inspects the tool and resets the counter.
@@ -46,7 +46,7 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 
 ---
 
-**Project Development Phases**
+## Project Development Phases
 **Phase 1: Backend Architecture & Data Foundations**
 1. **Completed Code Assets:** app.py (Storage helpers, core Flask server, and the /api/tools endpoints) and index.html (Header structure and the "Add New Tool" form layout).
 
