@@ -11,3 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
         renderUsers();
         renderTools(tools);
     }
+
+    function renderUsers() {
+        const container = document.getElementById("userList");
+        container.innerHTML = "";
+        users.forEach(u => {
+            const div = document.createElement("div");
+            div.className = "user-row";
+            div.innerHTML = `
+                <span>${u.name} (ID: ${u.uid})</span>
+                <button onclick="deleteUser('${u.uid}')" style="color:red; margin-left:10px;">Remove</button>
+            `;
+            container.appendChild(div);
+        });
+    }
