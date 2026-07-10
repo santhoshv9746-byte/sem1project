@@ -20,4 +20,37 @@ def write_db(data):
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
-    
+
+@app.route('/api/tools', methods=['GET', 'POST'])
+def handle_tools():
+    db = read_db()
+    if request.method == 'POST':
+        data = request.get_json()
+
+        if not data.get('name') or not data.get('category'):
+            return jsonify({"error": "Missing data"}), 400
+
+        new_tool = {
+            "id": f"tool_{int(time.time())}", # Collision-free unique IDs via timestamp
+            "name": data['name'].strip(),
+            "category": data['category'].strip(),
+            "status": "Available",
+            "borrow_count": 0,
+            "assigned_user": None
+        }
+        db["tools"].append(new_tool)
+        write_db(db)
+        return jsonify(new_tool), 201
+    return jsonify(db["tools"]), 200
+
+
+
+
+
+
+
+
+
+
+
+
