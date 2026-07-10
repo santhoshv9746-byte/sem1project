@@ -46,7 +46,8 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 
 ---
 
-## 📅 Development Milestones
-* **Day 1:** Repository Initialization, Storage JSON Schema Architecture, and Core Flask API CRUD Layout.
-* **Day 2:** User Management Expansion, Client-Side API Integration, and Dynamic Real-Time Data Syncing.
-* **Day 3:** Core Code Refactoring for Production Optimization, Structural Code Simplification, and Sequential Commit Log Pipeline.
+**Project Development Phases**
+**Phase 1: Backend Architecture & Data Foundations**
+1. **Completed Code Assets:** app.py (Storage helpers, core Flask server, and the /api/tools endpoints) and index.html (Header structure and the "Add New Tool" form layout).
+
+2. **GenAI Utilization:** I used Gemini to quickly spin up a baseline Flask server structure. I also leaned on AI patterns to figure out how to safely handle local file-writing on disk and map out the initial routing layout.
