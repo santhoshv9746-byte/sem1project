@@ -47,3 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (t.status === "Maintenance Lock") {
                 actionHTML = `<button onclick="resetTool('${t.id}')" style="background:orange;">Reset Maintenance</button>`;
             }
+
+            div.innerHTML = `
+                <h3>${t.name} <small>(${t.category})</small></h3>
+                <p>Status: <strong style="color:${t.status === 'Maintenance Lock' ? 'red' : 'green'};">${t.status}</strong> | Usage Count: ${t.borrow_count}/5</p>
+                <p>Current User: ${t.assigned_user || 'None'}</p>
+                <div>${actionHTML}</div>
+                <button onclick="deleteTool('${t.id}')" style="margin-top:15px; color:red; border:1px solid red; background:none; cursor:pointer;">Delete Tool from System</button>
+            `;
+            container.appendChild(div):
+        });
+    }
