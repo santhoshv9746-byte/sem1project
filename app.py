@@ -43,8 +43,21 @@ def handle_tools():
         return jsonify(new_tool), 201
     return jsonify(db["tools"]), 200
 
+@app.route('/api/tools/<tool_id>', methods=['PUT', 'DELETE'])
+def update_delete_tool(tool_id):
+    db = read_db()
+    tool = next((t for t in db["tools"] if t['id'] == tool_id), None)
 
+    if not tool:
+        return jsonify({"error": "Not found"}), 404
 
+    if request.method == 'DELETE':
+        db["tools"] = [t for t in db["tools"] if t['id'] != tool_id]
+        write_db(db)
+        return jsonify({"message": "Deleted"}),200
+
+    data = request.get_json()
+        
 
 
 
