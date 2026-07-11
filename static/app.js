@@ -25,3 +25,25 @@ document.addEventListener("DOMContentLoaded", () => {
             container.appendChild(div);
         });
     }
+
+    function renderTools(list) {
+        const container = document.getElementById("inventoryContainer");
+        container.innerHTML = "";
+
+        list.forEach(t => {
+            const div = document.createElement("div");
+            div.className = "card";
+        
+            let actionHTML = "";
+            if(t.status === "Available") {
+              let options = `<option value="">-- Assign User --</option>`;
+              users.forEach(u => options += `<option value="${u.name}">${u.name}</option>`);
+              actionHTML = `
+                <select id="select-${t.id}">${options}</select>
+                <button onclick="checkoutTool('${t.id}')">Check Out</button>
+              `;
+            } else if (t.status === "Borrowed") {
+                actionHTML = `<button onclick="returnTool('${t.id}')">Return Tool</button>`;
+            } else if (t.status === "Maintenance Lock") {
+                actionHTML = `<button onclick="resetTool('${t.id}')" style="background:orange;">Reset Maintenance</button>`;
+            }
