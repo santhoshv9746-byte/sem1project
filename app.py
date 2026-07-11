@@ -57,9 +57,24 @@ def update_delete_tool(tool_id):
         return jsonify({"message": "Deleted"}),200
 
     data = request.get_json()
-        
 
+    if data.get('reset_counter'):
+        tool.update({"status": "Available", "borrow_count": 0, "assigned_user": None})
+    elif 'status' in data:
+        tool['status'] = data['status']
+        tool['assigned_user'] = data.get('assigned_user')
 
+        if data['status'] == 'Available':
+            tool['borrow_count'] +=1
+
+            if tool['borrow_count'] >= 5:
+                tool['borrow_count'] += 1
+
+                if tool['borrow_count'] >=5:
+                    tool['status'] = 'Maintenance Lock'
+    
+    write_db(db)
+    return jsonify({"message" : "Updatded"}), 200
 
 
 
