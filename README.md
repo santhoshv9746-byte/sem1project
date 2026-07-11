@@ -53,15 +53,18 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 2. **GenAI Utilization:** I used Gemini to quickly spin up a baseline Flask server structure. I also leaned on AI patterns to figure out how to safely handle local file-writing on disk and map out the initial routing layout.
 
 3. **Modifications & Refinement:**
+
   **Data Validation:** I refactored the incoming data parsers to block empty form submissions,       making sure the server throws a clear HTTP 400 bad request if any critical info is missing.
-  
- **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
-  
-  **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
+   
+  **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
+   
+   **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
 
 **Phase 2: Safety Lockout Engine & User Operations**
 1. **Completed Code Assets:** app.py (Lockout verification logic, /api/users endpoints) and index.html (New User Form section and User List container layout).
 
 2. **Modifications & Refinement:**
-**Safety Lockout Engine:** I personally engineered the conditional tracking logic inside the PUT handler to monitor tool returns. The code checks the payload sequences on every return and automatically triggers a strict Maintenance Lock the exact moment an item crosses its 5-use limit.
-  
+
+ **Safety Lockout Engine:** I personally engineered the conditional tracking logic inside the PUT handler to monitor tool returns. The code checks the payload sequences on every return and automatically triggers a strict Maintenance Lock the exact moment an item crosses its 5-use limit.
+
+ **User Relationship Wiring:** I built clean lookup arrays to handle user profile creation safely. This ensures administrators can easily link registered users to active tools without risking any broken arrays or backend crashes.
