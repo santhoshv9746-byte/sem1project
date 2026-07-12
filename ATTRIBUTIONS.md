@@ -47,3 +47,12 @@ This register is a straightforward, transparent breakdown of where generative AI
 * **AI Engine Model:** Gemini Architecture Core
 
 * **Interaction Strategy:** I asked the AI for a basic, unstyled layout outline for the user management grids and inventory tables, along with a vanilla JS async/await fetch skeleton to handle API calls.
+
+#### 2.Custom modification & Refinements
+* **Context-Driven Dashboard Rendering:** I completely customized the frontend item renderer from scratch. I coded explicit condition switches that check data properties on the fly—injecting user dropdown selectors for Available items, quick return buttons for borrowed assets, and high-priority reset buttons for items flagged under a Maintenance Lock.
+
+* **Live DOM Visual Overrides:** I programmed specific layout rules to highlight matching UI areas in bold red (#ffdddd) the second a tool is flagged as unsafe by the backend engine.
+
+* **Silent State Synchronization:** I tied all standard frontend actions directly to a root data reload function (refreshData()). This forces the interface to fetch updated records silently behind the scenes, keeping the screen entirely up-to-date without forcing a slow, full page refresh.
+
+* **Form Action Overrides:** I bound standard event interceptors (e.preventDefault()) across all form submissions to stop native browser reloads, making sure active input fields clean themselves up automatically using smooth script reset commands.
