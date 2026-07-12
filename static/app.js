@@ -58,3 +58,17 @@ document.addEventListener("DOMContentLoaded", () => {
             container.appendChild(div):
         });
     }
+
+    toolForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await fetch('/api/tools', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById("toolName").value,
+                category: document.getElementById("toolCAtegory").value
+            })
+        });
+        toolForm.reset();
+        refreshData();
+    });
