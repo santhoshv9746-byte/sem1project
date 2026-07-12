@@ -25,7 +25,10 @@ form {
 }
 
 .user-row {
-    padding: 6px;
-    background: #eee;
-    margin: 4px 0;
+    padding: 8px;
+    background: #f0f0f0;
+    margin: 6px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
