@@ -66,9 +66,23 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: document.getElementById("toolName").value,
-                category: document.getElementById("toolCAtegory").value
+                category: document.getElementById("toolCategory").value
             })
         });
         toolForm.reset();
+        refreshData();
+    });
+
+    userForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById("newUserName").value,
+                uid: document.getElementById("newUserID").value
+            })
+        });
+        userForm.reset();
         refreshData();
     });
