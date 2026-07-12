@@ -89,6 +89,16 @@ if request.method == 'POST':
     return jsonify(new_user), 201
 return jsonify(db["users"]), 200
 
+@app.route('/api/users/<uid>', methods=['DELETE'])
+def delete_user(uid):
+    db = read_db()
+    db["users"] = [u for u in db["users"] if u['uid'] != uid]
+    write_db(db)
+    return jsonify({"message" : "User deleted"}), 200
+
+if __name__ = '__main__':
+    app.run(debug=True, port=5000)
+
 
 
 
