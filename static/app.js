@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Interactive Submit Handlers with e.preventDefault() to handle database updates seamlessly.
     toolForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         await fetch('/api/tools', {
@@ -76,19 +75,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
     userForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        await fetch('/api/users', {
+        
+        const nameInput = document.getElementById("newUserName").value.trim();
+        const uidInput = document.getElementById("newUserID").value.trim();
+
+        const nameRegex = /^[A-Za-z\s]+$/;
+        const uidRegex = /^\d+$/;
+
+        if (!nameRegex.test(nameInput)) {
+            alert("Error: Username must only contain letters and spaces.");
+            return;
+        }
+
+        if (!uidRegex.test(uidInput)) {
+            alert("Error: User ID must contain numbers only.");
+            return;
+        }
+
+        const isDuplicateId = users.some(u => u.uid === uidInput);
+        if (isDuplicateId) {
+            alert(`Error: The User ID "${uidInput}" is already assigned to someone else.`);
+            return;
+        }
+
+        const isDuplicateName = users.some(u => u.name.toLowerCase() === nameInput.toLowerCase());
+        if (isDuplicateName) {
+            alert(`Error: The Username "${nameInput}" is already taken.`);
+            return;
+        }
+
+        const response = await fetch('/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                name: document.getElementById("newUserName").value,
-                uid: document.getElementById("newUserID").value
+                name: nameInput,
+                uid: uidInput
             })
         });
+
+        if (!response.ok) {
+            const errorResult = await response.json();
+            alert(errorResult.error || "Something went wrong on the server.");
+            return;
+        }
+
         userForm.reset();
         refreshData();
     });
 
-    // Native search string query array matcher filters matching items instantly
     searchBar.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
         const filtered = tools.filter(t => t.name.toLowerCase().includes(query));
