@@ -86,3 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
         userForm.reset();
         refreshData();
     });
+
+
+    searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = tools.filter(t => t.name.toLowerCase().includes(query));
+        renderTools(filtered);
+    });
