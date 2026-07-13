@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.checkoutTool = async (id) => {
-        const user = document.getElemeantById(`select-${id}`).value;
+        const user = document.getElementById(`select-${id}`).value;
        if (!user) return alert("Select a user first");
         await fetch(`/api/tools/${id}`, {
             method: 'PUT',
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({ status: 'Borrowed', assigned_user: user })
         });
         refreshData();
-    }:
+    };
 
     window.returnTool = async (id) => {
     await fetch(`/api/tools/${id}`, {
@@ -124,14 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.deleteTool = async (id) => {
-        await fetch(`/api/tools/${uid}`, { method: 'DELETE' });
+        await fetch(`/api/tools/${id}`, { method: 'DELETE' });
         refreshData();
     };
 
     window.deleteUser = async (id) => {
-        await fetch(`/api/users/${uid}`, { method: 'DELETE' })
+        await fetch(`/api/users/${id}`, { method: 'DELETE' })
         refreshData();
     };
 
     refreshData();
-}):
+});
