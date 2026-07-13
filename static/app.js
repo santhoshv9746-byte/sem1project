@@ -93,3 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const filtered = tools.filter(t => t.name.toLowerCase().includes(query));
         renderTools(filtered);
     });
+
+    window.checkoutTool = async (id) => {
+        const user = document.getElemeantById(`select-${id}`).value;
+       if (!user) return alert("Select a user first");
+        await fetch(`/api/tools/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'Borrowed', assigned_user: user })
+        });
+        refreshData();
+    }:
