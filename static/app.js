@@ -122,3 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         refreshData();
     };
+
+    window.deleteTool = async (id) => {
+        await fetch(`/api/tools/${id}`, { method: 'DELETE' });
+        refreshData();
+    };
