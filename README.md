@@ -38,11 +38,11 @@ The platform is built as a lightweight, cohesive application using five core tec
 ## AI Attribution & Academic Integrity
 To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessment Scale (Category 4), here is exactly how GenAI helped shape this project:
 
-**The Collaborator**: Gemini (Google LLM).
+* **The Collaborator**: Gemini (Google LLM).
 
-**The AI's Job**: I used Gemini as an architectural sounding board to map out some of the trickier data patterns, such as setting up safe read_db and write_db functions to avoid JSON corruption, structuring user-lookup routes, and scaffolding the asynchronous async/await pipeline in JS.
+* **The AI's Job**: I used Gemini as an architectural sounding board to map out some of the trickier data patterns, such as setting up safe read_db and write_db functions to avoid JSON corruption, structuring user-lookup routes, and scaffolding the asynchronous async/await pipeline in JS.
 
-**My Job** : While AI helped lay the foundational tracks, I wrote and customized all the actual mechanics. The 5-cycle threshold logic, data validation, UI state switching, and live DOM updates were entirely designed, written, and iteratively committed by me.
+* **Customization** : While AI helped lay the foundational tracks, I wrote and customized all the actual mechanics. The 5-cycle threshold logic, data validation, UI state switching, and live DOM updates were entirely designed, written, and iteratively committed by me.
 
 ---
 
@@ -54,20 +54,20 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 
 3. **Modifications & Refinement:**
 
-  **Data Validation:** I refactored the incoming data parsers to block empty form submissions,       making sure the server throws a clear HTTP 400 bad request if any critical info is missing.
+  * **Data Validation:** I refactored the incoming data parsers to block empty form submissions,       making sure the server throws a clear HTTP 400 bad request if any critical info is missing.
    
-  **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
+  * **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
    
-   **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
+  * **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
 
 **Phase 2: Safety Lockout Engine & User Operations**
 1. **Completed Code Assets:** app.py (Lockout verification logic, /api/users endpoints) and index.html (New User Form section and User List container layout).
 
 2. **Modifications & Refinement:**
 
- **Safety Lockout Engine:** I personally engineered the conditional tracking logic inside the PUT handler to monitor tool returns. The code checks the payload sequences on every return and automatically triggers a strict Maintenance Lock the exact moment an item crosses its 5-use limit.
+ * **Safety Lockout Engine:** I personally engineered the conditional tracking logic inside the PUT handler to monitor tool returns. The code checks the payload sequences on every return and automatically triggers a strict Maintenance Lock the exact moment an item crosses its 5-use limit.
 
- **User Relationship Wiring:** I built clean lookup arrays to handle user profile creation safely. This ensures administrators can easily link registered users to active tools without risking any broken arrays or backend crashes.
+* **User Relationship Wiring:** I built clean lookup arrays to handle user profile creation safely. This ensures administrators can easily link registered users to active tools without risking any broken arrays or backend crashes.
 
  **Phase 3: Live User Interface & Dynamic Cards**
 1. **Completed Code Assets:** `app.js` and `style.css` - Dynamic UI template loops, form handlers, and API action connectors and Base layout framework and asset card configurations.
@@ -76,8 +76,13 @@ To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessm
 
 3. **Custom Modifications & Refinement:**
 
-**Custom Frontend State Logic** (`app.js`): I completely rewrote the dynamic card system to alter the visible interface instantly depending on the current database state. I programmed specific condition switches to toggle standard dropdown selectors when tools are Available, replace options with a simple return button when Borrowed, and automatically swap in a high-priority "Reset Maintenance" button if a tool gets locked out.
+* **Custom Frontend State Logic** (`app.js`): I completely rewrote the dynamic card system to alter the visible interface instantly depending on the current database state. I programmed specific condition switches to toggle standard dropdown selectors when tools are Available, replace options with a simple return button when Borrowed, and automatically swap in a high-priority "Reset Maintenance" button if a tool gets locked out.
 
-**Instant Visual UI Alerting:** I configured the frontend renderer to catch safety status shifts on the fly. I programmed inline style overrides inside the template literal script, forcing text alerts to render bold red and locking down the checkout buttons whenever a tool crosses into the maintenance state.
+* **Instant Visual UI Alerting:** I configured the frontend renderer to catch safety status shifts on the fly. I programmed inline style overrides inside the template literal script, forcing text alerts to render bold red and locking down the checkout buttons whenever a tool crosses into the maintenance state.
 
-**Data Refresh Synchronization:** I wired up data refresh chains across all checkout, creation, return, and removal functions. Every successful action triggers an immediate, seamless database re-read, refreshing the UI instantly without forcing a full, frustrating browser reload.
+* **Data Refresh Synchronization:** I wired up data refresh chains across all checkout, creation, return, and removal functions. Every successful action triggers an immediate, seamless database re-read, refreshing the UI instantly without forcing a full, frustrating browser reload.
+
+### **Phase 4: Optimization, Code Simplification & Final Verification**
+* **Completed Code Assets:** `app.js` (Real-time search bar engine), `style.css` (Visual alignment polish), general codebase formatting.
+ 
+* **Custom Modifications & Refinement:** I ran manual tests across all endpoint error responses to make sure things fail gracefully. I also built the instant frontend string matcher for the search bar, stripped out redundant function chains to keep the scripts lean, cleared out any leftover structural placeholders, and did a final verification pass to ensure it runs completely clean ahead of the project review.
