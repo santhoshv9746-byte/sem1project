@@ -78,16 +78,16 @@ def update_delete_tool(tool_id):
 
 @app.route('/api/users', methods=['GET', 'POST'])
 def handle_users():
-db = read_db()
-if request.method == 'POST':
-    data = request.get_json()
-    if not data.get('name') or not data.get('uid'):
-        return jsonify({"error" : "Missing data"}), 400
-    new_user = {"name": data['name'].strip(), "uid": data['uid'].strip()}
-    db["users"].append(new_user)
-    write_db(db)
-    return jsonify(new_user), 201
-return jsonify(db["users"]), 200
+    db = read_db()
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data.get('name') or not data.get('uid'):
+            return jsonify({"error" : "Missing data"}), 400
+        new_user = {"name": data['name'].strip(), "uid": data['uid'].strip()}
+        db["users"].append(new_user)
+        write_db(db)
+        return jsonify(new_user), 201
+    return jsonify(db["users"]), 200
 
 @app.route('/api/users/<uid>', methods=['DELETE'])
 def delete_user(uid):
