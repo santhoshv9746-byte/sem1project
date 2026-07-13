@@ -77,7 +77,7 @@ def update_delete_tool(tool_id):
     return jsonify({"message" : "Updatded"}), 200
 
 @app.route('/api/users', methods=['GET', 'POST'])
-def handle_users();
+def handle_users():
 db = read_db()
 if request.method == 'POST':
     data = request.get_json()
@@ -96,7 +96,7 @@ def delete_user(uid):
     write_db(db)
     return jsonify({"message" : "User deleted"}), 200
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     app.run(debug=True, port=5000)
 
 
