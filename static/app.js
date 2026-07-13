@@ -104,3 +104,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         refreshData();
     }:
+
+    window.returnTool = async (id) => {
+    await fetch(`/api/tools/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'Available', assigned_user: null })
+        });
+        refreshData();
+    };
+
+    window.resetTool = async (id) => {
+        await fetch(`/api/tools/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reset_counter: true })
+        });
+        refreshData();
+    };
