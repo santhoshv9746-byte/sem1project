@@ -3,7 +3,7 @@
 This register is a straightforward, transparent breakdown of where generative AI was used to help bounce ideas around, set up boilerplate code, or scaffold the initial architecture for the **ToolShare Asset Management System** master's project.
 
 ---
-## Milestone Timeline Register
+## Milestone Register
 ### Phase 1: Backend Architecture & Data Layer Setup
 * **Scope:** Local Data Persistence, Flask REST API Foundations, and Tool Inventory Base Models.
 
@@ -56,3 +56,16 @@ This register is a straightforward, transparent breakdown of where generative AI
 * **Silent State Synchronization:** I tied all standard frontend actions directly to a root data reload function (refreshData()). This forces the interface to fetch updated records silently behind the scenes, keeping the screen entirely up-to-date without forcing a slow, full page refresh.
 
 * **Form Action Overrides:** I bound standard event interceptors (e.preventDefault()) across all form submissions to stop native browser reloads, making sure active input fields clean themselves up automatically using smooth script reset commands.
+
+### Phase 4: July 14 — Optimization, Cleanup & Milestone Realization
+* **Scope:** Real-time search features, edge-case validation, code formatting, and review packaging.
+
+#### 1. Custom Modifications & Refinements
+* **Real-Time Search Matcher:** I designed and integrated a live input event listener for the searchBar element. It filters the active tools collection right on the frontend using local string matching, meaning it doesn't need to ping the backend every time a user types a letter.
+
+* **Annotation Sanitization:** I did the codebase to strip explanatory developer notes out of the production scripts (app.py, app.js) and consolidated all that tracking info right here in this documentation.
+
+* **Defensive Error Polishing:** I ran manual tests using data payloads to break edge cases, verifying that the backend accurately throws the correct HTTP 404 and 400 status codes on all custom requests.
+
+### Verification & Compliance Statement
+This browser runs natively on built-in Python library modules (os, json, time) and standard browser web APIs (fetch(), DOMContentLoaded). I didn't blindly import any unverified black-box modules or massive external CSS frameworks. The architecture is lightweight, completely transparent, and reflects a full, ground-up understanding of the codebase ahead of the live viva.
