@@ -6,6 +6,8 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 DB_FILE = "database.json"
 
+# The basic read/write file structure boilerplate was referenced using AI,
+# but manually verified and configured to handle local JSON arrays safely.
 def read_db():
     if not os.path.exists(DB_FILE):
         with open(DB_FILE, "w") as f:
@@ -21,17 +23,17 @@ def write_db(data):
 def index():
     return app.send_static_file('index.html')
 
+# --- API ROUTES FOR TOOLS ---
 @app.route('/api/tools', methods=['GET', 'POST'])
 def handle_tools():
     db = read_db()
     if request.method == 'POST':
         data = request.get_json()
-
         if not data.get('name') or not data.get('category'):
             return jsonify({"error": "Missing data"}), 400
-
+        
         new_tool = {
-            "id": f"tool_{int(time.time())}", # Collision-free unique IDs via timestamp
+            "id": f"tool_{int(time.time())}", # Used standard timestamping for unique IDs
             "name": data['name'].strip(),
             "category": data['category'].strip(),
             "status": "Available",
@@ -47,42 +49,42 @@ def handle_tools():
 def update_delete_tool(tool_id):
     db = read_db()
     tool = next((t for t in db["tools"] if t['id'] == tool_id), None)
-
+    
     if not tool:
         return jsonify({"error": "Not found"}), 404
 
     if request.method == 'DELETE':
         db["tools"] = [t for t in db["tools"] if t['id'] != tool_id]
         write_db(db)
-        return jsonify({"message": "Deleted"}),200
+        return jsonify({"message": "Deleted"}), 200
 
+    # PUT Method
     data = request.get_json()
-
+    
+    # Manually implemented counter increments and safety threshold intercepts
     if data.get('reset_counter'):
         tool.update({"status": "Available", "borrow_count": 0, "assigned_user": None})
     elif 'status' in data:
         tool['status'] = data['status']
         tool['assigned_user'] = data.get('assigned_user')
-
         if data['status'] == 'Available':
-            tool['borrow_count'] +=1
-
+            tool['borrow_count'] += 1
+            # Safety Intercept Lockout mechanism (5 Cycles Limit)
             if tool['borrow_count'] >= 5:
-                tool['borrow_count'] += 1
+                tool['status'] = 'Maintenance Lock'
 
-                if tool['borrow_count'] >=5:
-                    tool['status'] = 'Maintenance Lock'
-    
     write_db(db)
-    return jsonify({"message" : "Updatded"}), 200
+    return jsonify({"message": "Updated"}), 200
 
+# --- API ROUTES FOR USERS ---
+# Referenced AI patterns to map out user endpoints cleanly.
 @app.route('/api/users', methods=['GET', 'POST'])
 def handle_users():
     db = read_db()
     if request.method == 'POST':
         data = request.get_json()
         if not data.get('name') or not data.get('uid'):
-            return jsonify({"error" : "Missing data"}), 400
+            return jsonify({"error": "Missing data"}), 400
         new_user = {"name": data['name'].strip(), "uid": data['uid'].strip()}
         db["users"].append(new_user)
         write_db(db)
@@ -94,15 +96,7 @@ def delete_user(uid):
     db = read_db()
     db["users"] = [u for u in db["users"] if u['uid'] != uid]
     write_db(db)
-    return jsonify({"message" : "User deleted"}), 200
+    return jsonify({"message": "User deleted"}), 200
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8080))
-    app.run(debug=False, host='0.0.0.0', port=port)
-
-
-
-
-
-
-
+    app.run(debug=True, port=5000)
