@@ -29,19 +29,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTools(list) {
         const container = document.getElementById("inventoryContainer");
         container.innerHTML = "";
-
         list.forEach(t => {
             const div = document.createElement("div");
             div.className = "card";
-        
+            
+            // Changes element fields instantly depending on current database statuses
             let actionHTML = "";
-            if(t.status === "Available") {
-              let options = `<option value="">-- Assign User --</option>`;
-              users.forEach(u => options += `<option value="${u.name}">${u.name}</option>`);
-              actionHTML = `
-                <select id="select-${t.id}">${options}</select>
-                <button onclick="checkoutTool('${t.id}')">Check Out</button>
-              `;
+            if (t.status === "Available") {
+                let options = `<option value="">-- Assign User --</option>`;
+                users.forEach(u => options += `<option value="${u.name}">${u.name}</option>`);
+                actionHTML = `
+                    <select id="select-${t.id}">${options}</select>
+                    <button onclick="checkoutTool('${t.id}')">Check Out</button>
+                `;
             } else if (t.status === "Borrowed") {
                 actionHTML = `<button onclick="returnTool('${t.id}')">Return Tool</button>`;
             } else if (t.status === "Maintenance Lock") {
@@ -55,10 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div>${actionHTML}</div>
                 <button onclick="deleteTool('${t.id}')" style="margin-top:15px; color:red; border:1px solid red; background:none; cursor:pointer;">Delete Tool from System</button>
             `;
-            container.appendChild(div):
+            container.appendChild(div);
         });
     }
 
+    // Interactive Submit Handlers with e.preventDefault() to handle database updates seamlessly.
     toolForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         await fetch('/api/tools', {
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshData();
     });
 
-
+    // Native search string query array matcher filters matching items instantly
     searchBar.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
         const filtered = tools.filter(t => t.name.toLowerCase().includes(query));
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.checkoutTool = async (id) => {
         const user = document.getElementById(`select-${id}`).value;
-       if (!user) return alert("Select a user first");
+        if (!user) return alert("Select a user first");
         await fetch(`/api/tools/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.returnTool = async (id) => {
-    await fetch(`/api/tools/${id}`, {
+        await fetch(`/api/tools/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: 'Available', assigned_user: null })
@@ -128,8 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshData();
     };
 
-    window.deleteUser = async (id) => {
-        await fetch(`/api/users/${id}`, { method: 'DELETE' })
+    window.deleteUser = async (uid) => {
+        await fetch(`/api/users/${uid}`, { method: 'DELETE' });
         refreshData();
     };
 
