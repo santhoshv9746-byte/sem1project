@@ -83,12 +83,30 @@ def handle_users():
     db = read_db()
     if request.method == 'POST':
         data = request.get_json()
-        if not data.get('name') or not data.get('uid'):
-            return jsonify({"error": "Missing data"}), 400
-        new_user = {"name": data['name'].strip(), "uid": data['uid'].strip()}
+        
+        name = data.get('name', '').strip()
+        uid = data.get('uid', '').strip()
+        
+        if not name or not uid:
+            return jsonify({"error": "Both Username and User ID are required."}), 400
+            
+        if not all(char.isalpha() or char.isspace() for char in name):
+            return jsonify({"error": "Username must contain letters and spaces only."}), 400
+            
+        if not uid.isdigit():
+            return jsonify({"error": "User ID must contain numbers only."}), 400
+        
+        if any(u['uid'] == uid for u in db['users']):
+            return jsonify({"error": f"User ID '{uid}' is already taken."}), 400
+            
+        if any(u['name'].lower() == name.lower() for u in db['users']):
+            return jsonify({"error": f"Username '{name}' is already taken."}), 400
+        
+        new_user = {"name": name, "uid": uid}
         db["users"].append(new_user)
         write_db(db)
         return jsonify(new_user), 201
+        
     return jsonify(db["users"]), 200
 
 @app.route('/api/users/<uid>', methods=['DELETE'])
