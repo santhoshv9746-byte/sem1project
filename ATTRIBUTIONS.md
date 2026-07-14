@@ -69,3 +69,5 @@ This register is a straightforward, transparent breakdown of where generative AI
 
 ### Verification & Statement
 This browser runs natively on built-in Python library modules (os, json, time) and standard browser web APIs (fetch(), DOMContentLoaded). I didn't blindly import any unverified black-box modules or massive external CSS frameworks. The architecture is lightweight, completely transparent, and reflects a full, ground-up understanding of the codebase ahead of the live viva.
+
+https://sem1project-git-144718019467.europe-west1.run.app/
