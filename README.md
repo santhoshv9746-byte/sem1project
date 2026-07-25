@@ -35,14 +35,8 @@ The platform is built as a lightweight, cohesive application using five core tec
 
 ---
 
-## AI Attribution & Academic Integrity
-To stay fully transparent with DBS Quality Assurance rules and the GenAI Assessment Scale (Category 4), here is exactly how GenAI helped shape this project:
-
-* **The Collaborator**: Gemini (Google LLM).
-
-* **The AI's Job**: I used Gemini as an architectural sounding board to map out some of the trickier data patterns, such as setting up safe read_db and write_db functions to avoid JSON corruption, structuring user-lookup routes, and scaffolding the asynchronous async/await pipeline in JS.
-
-* **Customization** : While AI helped lay the foundational tracks, I wrote and customized all the actual mechanics. The 5-cycle threshold logic, data validation, UI state switching, and live DOM updates were entirely designed, written, and iteratively committed by me.
+## API Summary
+API Summary Reference MatrixAPI EndpointMethodPurposeAuthentication Required/GETServes the main frontend dashboard (index.html).No/api/toolsGETFetches all active tools stored in the system inventory.No/api/toolsPOSTRegisters a new asset tool into the system datastore.No/api/tools/<tool_id>PUTUpdates a tool's status (Check-out, Return, or Maintenance Reset).No/api/tools/<tool_id>DELETEPermanently purges a specific tool asset from the system.No/api/usersGETFetches a list of all registered tool-borrowing members.No/api/usersPOSTEnrolls a new user validation profile into the system records.No/api/users/<uid>DELETERemoves a member's profile authorization data by User ID.No
 
 ---
 
