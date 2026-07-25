@@ -103,44 +103,13 @@ ToolShare securely manages user profiles and tools listings using a quick local 
   * **Users:** Evicts member authorization profiles out of the user data matrix using the account's unique UID string.
     * **Endpoint:** `DELETE /api/users/<uid>`
 ---
+## Ubuntu Server Deployment Guide (GCP)
+    GCP server configurations:
 
-## Project Development Phases
-**Phase 1: Backend Architecture & Data Foundations**
-1. **Completed Code Assets:** app.py (Storage helpers, core Flask server, and the /api/tools endpoints) and index.html (Header structure and the "Add New Tool" form layout).
-
-2. **GenAI Utilization:** I used Gemini to quickly spin up a baseline Flask server structure. I also leaned on AI patterns to figure out how to safely handle local file-writing on disk and map out the initial routing layout.
-
-3. **Modifications & Refinement:**
-
-  * **Data Validation:** I refactored the incoming data parsers to block empty form submissions,       making sure the server throws a clear HTTP 400 bad request if any critical info is missing.
-   
-  * **Dynamic Unique IDs:** I set up a custom timestamping system (tool_{timestamp}) to guarantee that no two items ever accidentally share the same ID.
-   
-  * **Database Schema Strategy:** I added an empty history array inside database.json  during this phase as a placeholder for future audit logs. To keep the focus on getting the core safety lockout engine working first, this key is currently left alone by the live backend routes.
-
-**Phase 2: Safety Lockout Engine & User Operations**
-1. **Completed Code Assets:** app.py (Lockout verification logic, /api/users endpoints) and index.html (New User Form section and User List container layout).
-
-2. **Modifications & Refinement:**
-
- * **Safety Lockout Engine:** I personally engineered the conditional tracking logic inside the PUT handler to monitor tool returns. The code checks the payload sequences on every return and automatically triggers a strict Maintenance Lock the exact moment an item crosses its 5-use limit.
-
-* **User Relationship Wiring:** I built clean lookup arrays to handle user profile creation safely. This ensures administrators can easily link registered users to active tools without risking any broken arrays or backend crashes.
-
- **Phase 3: Live User Interface & Dynamic Cards**
-1. **Completed Code Assets:** `app.js` and `style.css` - Dynamic UI template loops, form handlers, and API action connectors and Base layout framework and asset card configurations.
-
-2. **GenAI Utilization:** I used Gemini to quickly skwtch a simple,unstyled layout template for the forms and users lists. I also used it to outline a clean JAvaScript `async/await` structure for communicating with our backend APIs, along with a basic CSS layout scheme.
-
-3. **Custom Modifications & Refinement:**
-
-* **Custom Frontend State Logic** (`app.js`): I completely rewrote the dynamic card system to alter the visible interface instantly depending on the current database state. I programmed specific condition switches to toggle standard dropdown selectors when tools are Available, replace options with a simple return button when Borrowed, and automatically swap in a high-priority "Reset Maintenance" button if a tool gets locked out.
-
-* **Instant Visual UI Alerting:** I configured the frontend renderer to catch safety status shifts on the fly. I programmed inline style overrides inside the template literal script, forcing text alerts to render bold red and locking down the checkout buttons whenever a tool crosses into the maintenance state.
-
-* **Data Refresh Synchronization:** I wired up data refresh chains across all checkout, creation, return, and removal functions. Every successful action triggers an immediate, seamless database re-read, refreshing the UI instantly without forcing a full, frustrating browser reload.
-
-### **Phase 4: Optimization, Code Simplification & Final Verification**
-* **Completed Code Assets:** `app.js` (Real-time search bar engine), `style.css` (Visual alignment polish), general codebase formatting.
- 
-* **Custom Modifications & Refinement:** I ran manual tests across all endpoint error responses to make sure things fail gracefully. I also built the instant frontend string matcher for the search bar, stripped out redundant function chains to keep the scripts lean, cleared out any leftover structural placeholders, and did a final verification pass to ensure it runs completely clean ahead of the project review.
+        Instance name: instance-2009xcxx-app
+        instance type: 2 vCPU + 4 GB memory
+        OS : Ubuntu 24.04 LTS Minimal
+        Ports: allow HTTPS, HTTP, Custom port as needed by application 5000
+        External IP address
+        custom ssh key to login to server
+---
