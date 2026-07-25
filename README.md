@@ -127,8 +127,26 @@ ToolShare securely manages user profiles and tools listings using a quick local 
 
 ---
 <div align="center">
-<img width="1606" height="848" alt="image" src="https://github.com/user-attachments/assets/89bcd6f9-0f03-4cf5-8c67-642dd9b5a27b" />
+
 <img width="1516" height="849" alt="image" src="https://github.com/user-attachments/assets/c18fa61e-1780-4bf0-afda-5a9503e4eaba" />
+
 <img width="1606" height="848" alt="image" src="https://github.com/user-attachments/assets/a3c022e1-52a8-45bb-8375-560f82c8b209" />
+
 </div>
+
+---
+
+## 📌 References and Sources
+
+### Python, Flask & Frontend Architecture Documentation:
+* (https://www.w3schools.com/)
+* (https://www.geeksforgeeks.org/python/flask-tutorial/)
+* (https://developer.mozilla.org/en-US/docs/Web/CSS)
+* (https://www.youtube.com/watch?v=rOg9YYdZ8Mo)
+* (https://www.youtube.com/watch?v=dRtGaH0vtYg)
+
+### Readme File updates:
+* *README.md Structure and Layout Blueprint*  
+  [Adapted with permission from repository structure designed by classmate krishna / GitHub: @krishnazen27]
+
 
