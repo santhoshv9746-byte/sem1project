@@ -36,7 +36,17 @@ The platform is built as a lightweight, cohesive application using five core tec
 ---
 
 ## API Summary
-API Summary Reference MatrixAPI EndpointMethodPurposeAuthentication Required/GETServes the main frontend dashboard (index.html).No/api/toolsGETFetches all active tools stored in the system inventory.No/api/toolsPOSTRegisters a new asset tool into the system datastore.No/api/tools/<tool_id>PUTUpdates a tool's status (Check-out, Return, or Maintenance Reset).No/api/tools/<tool_id>DELETEPermanently purges a specific tool asset from the system.No/api/usersGETFetches a list of all registered tool-borrowing members.No/api/usersPOSTEnrolls a new user validation profile into the system records.No/api/users/<uid>DELETERemoves a member's profile authorization data by User ID.No
+
+| API Endpoint | Method | Purpose | Authentication Required |
+| :--- | :--- | :--- | :--- |
+| `/` | GET | Serves the main frontend dashboard (`index.html`). | No |
+| `/api/tools` | GET | Fetches all active tools stored in the system inventory. | No |
+| `/api/tools` | POST | Registers a new asset tool into the system datastore. | No |
+| `/api/tools/<tool_id>` | PUT | Updates a tool's status (Check-out, Return, or Maintenance Reset). | No |
+| `/api/tools/<tool_id>` | DELETE | Permanently purges a specific tool asset from the system. | No |
+| `/api/users` | GET | Fetches a list of all registered tool-borrowing members. | No |
+| `/api/users` | POST | Enrolls a new user validation profile into the system records. | No |
+| `/api/users/<uid>` | DELETE | Removes a member's profile authorization data by User ID. | No |
 
 ---
 
