@@ -115,14 +115,17 @@ ToolShare securely manages user profiles and tools listings using a quick local 
 ---
 ## Configuration to Run Application in Ubuntu Server
 
-reference: https://docs.vultr.com/how-to-install-flask-on-ubuntu-24-04
-
-sudo apt update && sudo apt upgrade -y
-sudo apt-get install python3-pip -y
-sudo apt install python3.12-venv -y
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-python3 app.py
+     reference: https://docs.vultr.com/how-to-install-flask-on-ubuntu-24-04
+     
+     sudo apt update && sudo apt upgrade -y
+     sudo apt-get install python3-pip -y
+     sudo apt install python3.12-venv -y
+     python3 -m venv venv
+     source venv/bin/activate
+     pip3 install -r requirements.txt
+     python3 app.py
 
 ---
+<div align="center">
+<img width="1606" height="848" alt="image" src="https://github.com/user-attachments/assets/89bcd6f9-0f03-4cf5-8c67-642dd9b5a27b" />
+</div>
