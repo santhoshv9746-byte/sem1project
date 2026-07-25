@@ -50,6 +50,36 @@ The platform is built as a lightweight, cohesive application using five core tec
 
 ---
 
+## 🗄️ JSON Database Schema
+
+Data is stored locally in structured arrays inside a quick little JSON file(`database.json`).
+
+### 1. `tools` Structure
+Tracks individual equipment assets, current operational availability, and safety usage limits.
+
+| Field | Data Type | Constraints / Format | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | STRING | Unique Identifier (`tool_{timestamp}`) | Automatically generated custom unique ID for each tool. |
+| `name` | STRING | NOT NULL | The public name/model description of the tool. |
+| `category` | STRING | NOT NULL | Categorization group (e.g., Power Tools, Gardening). |
+| `status` | STRING | `Available`, `Borrowed`, or `Maintenance Lock` | Current operational state of the asset. |
+| `borrow_count` | INTEGER | DEFAULT `0`, Limit `5` | Tracking counter incremented on every return to trigger safety locks. |
+| `assigned_user` | STRING / NULL | Matches a user's `name` or `null` | The name of the member currently borrowing the tool. |
+
+### 2. `users` Structure
+Manages active members profiles and usage stats.
+
+| Field | Data Type | Constraints / Format | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | STRING | Letters and spaces only, UNIQUE | Full name profile handle used during tool assignment. |
+| `uid` | STRING | Numbers only, UNIQUE | Custom system unique identification key for the member. |
+
+### 3. `history` Structure
+*   **Data Type:** ARRAY
+*   **Description:** An empty array schema configuration reserved for future audit logs and historical checkout tracking metrics.
+
+---
+
 ## Project Development Phases
 **Phase 1: Backend Architecture & Data Foundations**
 1. **Completed Code Assets:** app.py (Storage helpers, core Flask server, and the /api/tools endpoints) and index.html (Header structure and the "Add New Tool" form layout).
