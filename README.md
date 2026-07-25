@@ -147,6 +147,11 @@ ToolShare securely manages user profiles and tools listings using a quick local 
 
 ### Readme File updates:
 * *README.md Structure and Layout Blueprint*  
-  [Adapted with permission from repository structure designed by classmate krishna / GitHub: @krishnazen27]
+  Adapted with permission from repository structure designed by classmate krishna / GitHub: @krishnazen27
 
+### Gemini AI used chats:
+* (https://share.gemini.google/isLns2ZcGcEf)
+* (https://share.gemini.google/3pV0a5BKHO3v)
+* (https://share.gemini.google/CTTyZ72VTdeI)
+* https://share.gemini.google/MxZt2iK5ALgs
 
