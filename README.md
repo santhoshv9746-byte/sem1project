@@ -79,6 +79,30 @@ Manages active members profiles and usage stats.
 *   **Description:** An empty array schema configuration reserved for future audit logs and historical checkout tracking metrics.
 
 ---
+## CRUD Operations
+
+ToolShare securely manages user profiles and tools listings using a quick local CRUD setup driven by async endpoints.
+
+* **CREATE (Register Assets & Users):** 
+  * **Tools:** When an administrator adds an item, the frontend passes a payload via a `POST` request. The backend strips whitespace, assigns an atomic timestamp identifier (`tool_{timestamp}`), sets the defaults (`status: "Available"`, `borrow_count: 0`), and appends the object to the JSON array.
+    * **Endpoint:** `POST /api/tools`
+  * **Users:** Validates incoming payloads to ensure usernames contain letters/spaces only, UIDs are purely numeric, and both values are structurally unique before writing to disk.
+    * **Endpoint:** `POST /api/users`
+
+* **READ (Fetch Live State Matrices):** 
+  * The frontend initiates parallel asynchronous `fetch()` operations to read the database arrays. The UI template parsing engine consumes this raw dataset to dynamically construct the dashboard tables, state-dependent action cards, and responsive search bar filters on the fly.
+    * **Endpoints:** `GET /api/tools` and `GET /api/users`
+
+* **UPDATE (Lifecycle State Transitions & Safety Tripping):** 
+  * Coordinates all status movements (`Available` $\leftrightarrow$ `Borrowed`). When an item is returned, the backend increments the `borrow_count` metric by 1. The moment the threshold hits **5 cycles**, the core logic locks the status to `Maintenance Lock`. The UI catches this shift, strips checkout abilities, and shows a "Reset Maintenance" button.
+    * **Endpoint:** `PUT /api/tools/<tool_id>`
+
+* **DELETE (System Asset & Account Purging):** 
+  * **Tools:** Destroys a tool configuration object immediately by filtering its unique tracking ID out of the persistent array.
+    * **Endpoint:** `DELETE /api/tools/<tool_id>`
+  * **Users:** Evicts member authorization profiles out of the user data matrix using the account's unique UID string.
+    * **Endpoint:** `DELETE /api/users/<uid>`
+---
 
 ## Project Development Phases
 **Phase 1: Backend Architecture & Data Foundations**
